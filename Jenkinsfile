@@ -67,7 +67,7 @@ pipeline {
             waitForQualityGate abortPipeline: true
         }
     }
-}
+} //quality gate
 
         stage("UploadArtifact"){
             steps{
