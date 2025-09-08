@@ -17,6 +17,12 @@ pipeline {
         NEXUS_LOGIN = 'nexuslogin'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
+        COLOR_MAP = [
+        'SUCCESS': 'good',
+        'FAILURE': 'danger',
+        'UNSTABLE': 'warning',
+        'ABORTED': 'danger'
+    ]
     }
 
     stages {
