@@ -1,27 +1,26 @@
 pipeline {
     agent any
-    tools {
-        maven "MAVEN3.9.9"
-        jdk "JDK17"
+ tools {
+        maven "Maven3.9"
+        jdk "jdk17"
     }
-    
-    environment {
-        SNAP_REPO = 'vprofile-snapshot'
-		NEXUS_USER = 'admin'
-		NEXUS_PASS = 'admin123'
-		RELEASE_REPO = 'vprofile-release'
-		CENTRAL_REPO = 'vpro-maven-central'
-		NEXUSIP = '172.31.43.144'
-		NEXUSPORT = '8081'
-		NEXUS_GRP_REPO = 'vpro-maven-group'
-        NEXUS_LOGIN = 'nexuslogin'
-    }
-
     stages {
-        stage('Build'){
+        stage('Git checkout') {
+            steps {
+                git branch: 'jenkins-ci', url: 'https://github.com/myfirstgitravindra/vprofile-project-jenkins-ci.git'
+            }
+        }
+        
+        stage('Build') {
             steps {
                 sh 'mvn -s settings.xml -DskipTests install'
             }
+            post {
+                success {
+                    echo "Now Archiving."
+                    archiveArtifacts artifacts: '**/*.war'
+                }
+            }
         }
+
     }
-}
