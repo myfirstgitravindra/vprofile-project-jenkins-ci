@@ -61,6 +61,7 @@ pipeline {
               }
             }
         }
+
         stage("UploadArtifact"){
             steps{
                 nexusArtifactUploader(
@@ -81,4 +82,13 @@ pipeline {
             }
         }
     } // End of stages
-} // End of pipeline - YOU WERE MISSING THIS LINE
+
+    post {
+        always {
+            echo 'Slack Notifications.'
+            slackSend channel: '#all-vprofilecicd',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+        }
+    }
+} // End of pipeline
