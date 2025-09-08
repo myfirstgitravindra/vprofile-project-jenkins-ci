@@ -1,19 +1,19 @@
 pipeline {
     agent any
     tools {
-        maven "MAVEN3.9"
-        jdk "JDK17"
+        maven "Maven3.9"
+        jdk "jdk17"
     }
     
     environment {
         SNAP_REPO = 'vprofile-snapshot'
-		NEXUS_USER = 'admin'
-		NEXUS_PASS = 'Ravi123'
-		RELEASE_REPO = 'vprofile-release'
-		CENTRAL_REPO = 'vpro-maven-central'
-		NEXUSIP = '172.31.47.196'
-		NEXUSPORT = '8081'
-		NEXUS_GRP_REPO = 'vpro-maven-group'
+        NEXUS_USER = 'admin'
+        NEXUS_PASS = 'Ravi123'
+        RELEASE_REPO = 'vprofile-release'
+        CENTRAL_REPO = 'vpro-maven-central'
+        NEXUSIP = '172.31.47.196'
+        NEXUSPORT = '8081'
+        NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
@@ -36,7 +36,6 @@ pipeline {
             steps {
                 sh 'mvn -s settings.xml test'
             }
-
         }
 
         stage('Checkstyle Analysis'){
@@ -66,8 +65,6 @@ pipeline {
         stage("Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                    // true = set pipeline to UNSTABLE, false = don't
                     waitForQualityGate abortPipeline: true
                 }
             }
@@ -92,5 +89,5 @@ pipeline {
                 )
             }
         }
-
-    }
+    } // End of stages
+} // End of pipeline - YOU WERE MISSING THIS LINE
